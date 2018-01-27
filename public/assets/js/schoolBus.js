@@ -153,27 +153,29 @@ $(document).ready(function() {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
-    var searchKid = $("#student-name-to-search").val().trim();
-
-    // var regExp = /[^a-zA-Z\s]/;
-
-    // searchKid = searchKid.match(regExp);
-
-    searchKid = searchKid.split(" ");
-
-    console.log(searchKid);
-
-    var student_first_name = searchKid[0];
-    var student_last_name = searchKid[1];
+    var searchStudent = $("#student-name-to-search").val().trim();
 
     // Send the GET request.
-    $.ajax(`/api/parent-search/${student_first_name}/${student_last_name}`, {
-      method: "GET"
-    }).then(
+    $.get(`/api/parent-search/${searchStudent}`,
       function(data) {
-        console.log("searching for kid");
-        // Reload the page to get the updated list
-        location.reload();
+        console.log(data)
+        console.log("searching for student");
+
+        //Reload the page to get the updated list
+        //location.reload();
+
+        //console.log(data)
+
+        $('#student-name-to-search').text('');
+        
+        $('#show-full-name').text(data.studentName);
+
+        $('#show-bus-number').text(data.busNumber);
+
+        $('#show-driver-name').text(data.driverName);
+
+        $('#show-driver-image').text(data.driverImg);
+
       }
     );
   });
